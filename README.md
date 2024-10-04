@@ -1,4 +1,5 @@
 # Django SQLite User DB (DSUD)
+[![codecov](https://codecov.io/gh/MessyComposer/django-sqlite-user-db/graph/badge.svg?token=2ER3QRHUT0)](https://codecov.io/gh/MessyComposer/django-sqlite-user-db)
 
 **Disclaimer:**  
 This package purely experimental and is not intended for production use. Use at your own discretion.

@@ -19,3 +19,4 @@ coverage.xml
 htmlcov/
 pipfile
 pipfile.lock
+.env
