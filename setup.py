@@ -2,8 +2,9 @@ from setuptools import setup, find_packages
 
 setup(
     name="django-sqlite-user-db",
-    version="0.1.0",
+    version="0.1.1",
     packages=find_packages(),
+    include_package_data=True,
     install_requires=[
         "Django>=4.2.16",
         "asgiref>=3.8.1"

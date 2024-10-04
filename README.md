@@ -2,7 +2,7 @@
 [![codecov](https://codecov.io/gh/MessyComposer/django-sqlite-user-db/graph/badge.svg?token=2ER3QRHUT0)](https://codecov.io/gh/MessyComposer/django-sqlite-user-db)
 
 **Disclaimer:**  
-This package purely experimental and is not intended for production use. Use at your own discretion.
+This package is purely experimental and is not intended for production use. Use at your own discretion.
 
 ---
 
@@ -35,8 +35,22 @@ DATABASE_ROUTERS = ["dsud.router.UserSpecificDatabaseRouter"]
 TEST_RUNNER = "dsud.test_runner.UserSQLiteDBManagerTestRunner"
 ```
 
+## Defining Users For Test Cases
+
+In your settings, you can define test users by adding setting `USER_SQLITE_DB_MANAGER_TEST_USER_DETAILS`. This setting should contain a list of user payloads, such as:
+
+```python
+USER_SQLITE_DB_MANAGER_TEST_USER_DETAILS = [
+    {"id": 1337, "username": "user_1337", "password": "secret"},
+    # Add more test users as needed
+]
+```
+
+These users will be enrolled during the test runner's `setup_database` step, including the creation of their individual databases. They will also be automatically torn down after the tests are completed.
+
 
 ## Admin Panel Integration
+This assumes you've registered `dsud.admin.UserAdmin` for your User model, or inherit from it in a custom model admin and include `"switch_user_button"` in `list_display`.
 
 To easily manage user databases through the Django admin panel, follow these steps:
 
@@ -60,6 +74,7 @@ To easily manage user databases through the Django admin panel, follow these ste
     ```
 
 2. **Customize Admin Templates**:
+
 
     Create a file at `templates/admin/base_site.html` with the following contents:
 

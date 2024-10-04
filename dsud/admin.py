@@ -44,6 +44,3 @@ class UserAdmin(admin.ModelAdmin):
             '<a class="button" href="{}">Switch User</a>',
             url,
         )
-
-admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
