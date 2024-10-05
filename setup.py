@@ -18,6 +18,7 @@ setup(
     description="A Django package to create and manage user-specific SQLite databases.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
+    license="MIT",
     url="https://github.com/MessyComposer/django-sqlite-user-db",
     classifiers=[
         "Programming Language :: Python :: 3",

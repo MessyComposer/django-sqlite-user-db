@@ -1,5 +1,6 @@
 # Django SQLite User DB (DSUD)
 [![codecov](https://codecov.io/gh/MessyComposer/django-sqlite-user-db/graph/badge.svg?token=2ER3QRHUT0)](https://codecov.io/gh/MessyComposer/django-sqlite-user-db)
+[![PyPI version](https://badge.fury.io/py/django-sqlite-user-db.svg)](https://badge.fury.io/py/django-sqlite-user-db)
 
 **Disclaimer:**  
 This package is purely experimental and is not intended for production use. Use at your own discretion.
@@ -8,17 +9,19 @@ This package is purely experimental and is not intended for production use. Use 
 
 ## Overview
 
-Django SQLite User DB (DSUD) is a Django package that allows each user to have their own individual SQLite database. This enables user-specific data management while maintaining a lightweight and simple setup. Perfect for development, prototyping, and learning, DSUD provides a unique approach to user data storage.
+Django SQLite User DB (DSUD) is a Django package that allows each user to have their own individual SQLite database.
 
 ## Features
 
 - Individual SQLite databases for each user
-- Easy integration with existing Django projects
-- Lightweight and minimal configuration
+- On-demand db creation
+- Migration handling
+- Admin panel support
+- Easy setup
 
 ## Installation
 
-To install DSUD, do the following modifications in your Django settings:
+To install DSUD, add the following modifications in your Django settings:
 
 ```python
 INSTALLED_APPS = [
@@ -34,6 +37,17 @@ MIDDLEWARE = [
 DATABASE_ROUTERS = ["dsud.router.UserSpecificDatabaseRouter"]
 TEST_RUNNER = "dsud.test_runner.UserSQLiteDBManagerTestRunner"
 ```
+
+## Dealing with migrations
+
+To apply migrations to the user databases, `django-sqlite-user-db` provides a custom management command to apply migrations to all user dbs:
+
+```sh
+python src/manage.py migrate_user_dbs
+```
+
+This works by loading all the user entries in the root db, and applying migrations to them one by one.
+
 
 ## Defining Users For Test Cases
 
