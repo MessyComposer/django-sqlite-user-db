@@ -1,3 +1,4 @@
+import shutil
 from django.core.management import call_command
 from django.db import connections
 from django.conf import settings
@@ -55,9 +56,14 @@ def reset_database_connection(user_id):
 
 
 def setup_user_db(user_id):
+    empty_db_path = get_user_database_path('template')
     db_path = get_user_database_path(user_id)
 
     try:
+        # If the db doesn't exist, make a copy of the template db, if it exists
+        if not os.path.exists(db_path) and os.path.exists(empty_db_path):
+            shutil.copyfile(empty_db_path, db_path)
+
         # Apply migrations to the user database
         user_db_alias = get_user_database_alias(user_id)
         connections.databases[user_db_alias] = connections.databases["default"].copy()

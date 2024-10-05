@@ -6,7 +6,7 @@ class Command(BaseCommand):
     help = "Create user database"
 
     def add_arguments(self, parser):
-        parser.add_argument("--user_id", nargs=1, type=int)
+        parser.add_argument("--user_id", nargs=1)
 
     def handle(self, *args, **kwargs):
         user_id = kwargs.get("user_id")[0]
