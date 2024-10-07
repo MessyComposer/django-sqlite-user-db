@@ -14,14 +14,24 @@ class TestAdmin(TestCase):
         self.user = User.objects.create_user(**self.credentials)
         self.admin_user = User.objects.create_superuser("admin", "password")
         
-    def test_set_user(self):
+    def test_admin_user(self):
         self.client.force_login(self.admin_user)
+        # Set user
         response = self.client.get(reverse('dsud:set_user'), {'user_id': self.user.id})
         self.assertEqual(self.client.session['admin_user_id'], str(self.user.id))
         self.assertEqual(response.status_code, 302)
+        # Unset user
+        response = self.client.get(reverse('dsud:unset_user'))
+        self.assertNotIn('admin_user_id', self.client.session)
+        self.assertEqual(response.status_code, 302)
 
-    def test_unset_user(self):
-        self.client.force_login(self.admin_user)
+    def test_normal_user(self):
+        self.client.force_login(self.user)
+        # Set user
+        response = self.client.get(reverse('dsud:set_user'), {'user_id': self.admin_user.id})
+        self.assertNotIn('admin_user_id', self.client.session)
+        self.assertEqual(response.status_code, 302)
+        # Unset user
         response = self.client.get(reverse('dsud:unset_user'))
         self.assertNotIn('admin_user_id', self.client.session)
         self.assertEqual(response.status_code, 302)

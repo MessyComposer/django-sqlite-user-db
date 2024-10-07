@@ -2,7 +2,8 @@ from django.test import TestCase
 from django.db import models
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth import get_user_model
-from dsud.db_utils import (
+from dsud.middleware import request_user_db
+from dsud.utils import (
     set_database_for_user,
     delete_user_db,
 )
@@ -10,7 +11,7 @@ from dsud.db_utils import (
 User = get_user_model()
 
 
-def generate_test_id(field):
+def generate_test_id(field): # pragma: no cover
     if isinstance(field, models.AutoField):
         return 1338
     elif isinstance(field, models.UUIDField):
@@ -45,10 +46,15 @@ class DBUtils(TestCase):
             "password": "secret",
         }
         user = User.objects.create_user(**self.credentials)
-
+        
         # Test switching to the user database
         connected = set_database_for_user(user.id)
         self.assertTrue(connected)
+
+        with request_user_db(user):
+            # [TODO] - Add test user model data and check if we can create and retrieve it
+            pass
+
 
         # Test deleting the user database
         res = delete_user_db(user.id)

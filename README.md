@@ -31,11 +31,11 @@ INSTALLED_APPS = [
 ]
 MIDDLEWARE = [
     ...
-    "dsud.middleware.DatabaseSwitchMiddleware",
+    "dsud.middleware.DatabaseHandlerMiddleware",
     ...
 ]
-DATABASE_ROUTERS = ["dsud.router.UserSpecificDatabaseRouter"]
-TEST_RUNNER = "dsud.test_runner.UserSQLiteDBManagerTestRunner"
+DATABASE_ROUTERS = ["dsud.routers.DatabaseRouter"]
+TEST_RUNNER = "dsud.test_runner.TestRunner"
 ```
 
 ## Dealing with migrations
@@ -93,7 +93,7 @@ To easily manage user databases through the Django admin panel, follow these ste
     Create a file at `templates/admin/base_site.html` with the following contents:
 
     ```html
-    {% extends "dsud/base_site.html" %}
+    {% extends "dsud/admin/base_site.html" %}
     ```
 
 This will allow you to manage user-specific databases directly from the Django admin interface.
@@ -106,14 +106,14 @@ Simply go to the users table, and click the "Switch user" button
 If you need to  create entries in the user-specific database outside of requests (like test case setups for example), you can use the `set_user_in_middleware` context manager provided by DSUD. Here is an example:
 
 ```python
-from dsud.context_manager import set_user_in_middleware
+from dsud.middleware import request_user_db
 from your_app.models import Model
 
 # Assuming you have a user instance
 user = User.objects.get(username='example_user')
 
 # Manually create entries in the user's database
-with set_user_in_middleware(user):
+with request_user_db(user):
     obj1 = Model.objects.create(...)
     obj2 = Model.objects.create(...)
 

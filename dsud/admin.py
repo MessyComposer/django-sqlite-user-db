@@ -9,7 +9,7 @@ User = get_user_model()
 
 def set_user(request):
     if not request.user.is_superuser:
-        del request.session["admin_user_id"]
+        request.session.pop("admin_user_id", None)
         return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
     if "user_id" in request.GET:
         request.session["admin_user_id"] = request.GET["user_id"]
@@ -19,10 +19,10 @@ def set_user(request):
 
 def unset_user(request):
     if not request.user.is_superuser:
-        del request.session["admin_user_id"]
+        request.session.pop("admin_user_id", None)
         return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
     if "admin_user_id" in request.session:
-        del request.session["admin_user_id"]
+        request.session.pop("admin_user_id", None)
         request.session.modified = True
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 

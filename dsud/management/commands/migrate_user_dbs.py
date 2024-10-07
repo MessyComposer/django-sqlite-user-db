@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from django.conf import settings
 import os
 
-from dsud.db_utils import setup_user_db
+from dsud.utils import setup_user_db
 
 
 class Command(BaseCommand):

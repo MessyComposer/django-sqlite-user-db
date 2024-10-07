@@ -44,7 +44,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "dsud.middleware.DatabaseSwitchMiddleware",
+    "dsud.middleware.DatabaseHandlerMiddleware",
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -81,7 +81,7 @@ DATABASES = {
         "NAME": os.path.join(BASE_DIR, "db", "root.sqlite3"),
     },
 }
-DATABASE_ROUTERS = ["dsud.router.UserSpecificDatabaseRouter"]
+DATABASE_ROUTERS = ["dsud.routers.DatabaseRouter"]
 
 
 # Password validation
@@ -115,4 +115,4 @@ USE_I18N = True
 USE_TZ = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-TEST_RUNNER = "dsud.test_runner.UserSQLiteDBManagerTestRunner"
+TEST_RUNNER = "dsud.test_runner.TestRunner"

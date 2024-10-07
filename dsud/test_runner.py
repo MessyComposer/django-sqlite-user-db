@@ -1,13 +1,12 @@
-from importlib import import_module
 from django.test.runner import DiscoverRunner
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from dsud.db_utils import delete_user_db
+from dsud.utils import delete_user_db
 
 User = get_user_model()
 
 
-class UserSQLiteDBManagerTestRunner(DiscoverRunner):
+class TestRunner(DiscoverRunner):
 
     def setup_databases(self, **kwargs):
         old_config = super().setup_databases(**kwargs)

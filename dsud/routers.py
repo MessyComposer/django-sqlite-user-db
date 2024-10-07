@@ -1,21 +1,21 @@
 from django.apps import apps
-from dsud.middleware import DatabaseSwitchMiddleware
+from dsud.middleware import DatabaseHandlerMiddleware
 
 
-class UserSpecificDatabaseRouter:
+class DatabaseRouter:
 
     def check_user_specific(self, model):
         return getattr(model, "_is_user_model", False)
 
     def db_for_read(self, model, **hints):
         if self.check_user_specific(model):
-            user_id = DatabaseSwitchMiddleware.get_request_user_id()
+            user_id = DatabaseHandlerMiddleware.get_request_user_id()
             return f"user_{user_id}"
         return "default"
 
     def db_for_write(self, model, **hints):
         if self.check_user_specific(model):
-            user_id = DatabaseSwitchMiddleware.get_request_user_id()
+            user_id = DatabaseHandlerMiddleware.get_request_user_id()
             return f"user_{user_id}"
         return "default"
 
